@@ -139,8 +139,8 @@
 
 
 from pathlib import Path
-import os
-import dj_database_url  # Nếu bạn muốn dùng DATABASE_URL từ env, cần cài đặt thư viện dj-database-url
+# import os
+# import dj_database_url  # Nếu bạn muốn dùng DATABASE_URL từ env, cần cài đặt thư viện dj-database-url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -169,10 +169,18 @@ INSTALLED_APPS = [
 
 # Cấu hình REST framework (bạn có thể thêm authentication, permission)
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-    # Nếu triển khai JWT, bạn có thể thêm custom authentication sau
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.AllowAny',
+    # ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'apps.accounts.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
 MIDDLEWARE = [
@@ -206,8 +214,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'csvapi.wsgi.application'
 
 # 2. Cấu hình cơ sở dữ liệu: Sử dụng PostgreSQL thông qua DATABASE_URL
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgres://root:admin@123@localhost:5432/csv-api-db')
+# }
+
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://root:admin@123@localhost:5432/mydb')
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'csv-api-db',
+        'USER': 'root',
+        'PASSWORD': 'admin@123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # 3. Cấu hình mật khẩu: sử dụng BCrypt
@@ -243,10 +262,17 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # 6. Cấu hình Celery
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0' # Địa chỉ Redis broker
+CELERY_RESULT_BACKEND = 'django-db' # Lưu kết quả vào cơ sở dữ liệu Django
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TASK_ALWAYS_EAGER = True
+
 
 # 7. Cấu hình cho Django Celery Results
 CELERY_CACHE_BACKEND = 'django-cache'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# APPEND_SLASH=False

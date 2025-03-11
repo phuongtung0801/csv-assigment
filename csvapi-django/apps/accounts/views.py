@@ -6,12 +6,12 @@ from django.conf import settings
 import jwt
 from datetime import datetime, timedelta
 from .serializers import UserRegisterSerializer, UserLoginSerializer
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
 
-@api_view(['GET'])
-def fuck(request):
-    return Response({"message": "Registration successful"}, status=status.HTTP_201_CREATED)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def register(request):
     serializer = UserRegisterSerializer(data=request.data)
     if serializer.is_valid():
@@ -20,6 +20,7 @@ def register(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def login(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
