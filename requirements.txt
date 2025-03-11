@@ -8,3 +8,5 @@ PyJWT
 bcrypt
 pandas
 dj-database-url
+gunicorn
+django-environ

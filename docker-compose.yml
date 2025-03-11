@@ -1,39 +1,42 @@
 version: '3.8'
 services:
-  # api:
-  #   build: .
-  #   ports:
-  #     - "8000:8000"
-  #   volumes:
-  #     - .:/app
-  #   depends_on:
-  #     - db
-  #     - redis
-  #   environment:
-  #     - DATABASE_URL=postgres://root:admin@123@host.docker.internal:5432/mydb # Sử dụng host.docker.internal hoặc IP host
-  #     # Hoặc nếu ứng dụng ngoài host chạy trên cùng máy:
-  #     # - DATABASE_URL=postgres://root:admin@123@localhost:5432/mydb
+  web:
+    build: .
+    command: gunicorn csvapi.wsgi:application --bind 0.0.0.0:8000 --timeout 120
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file: .env
+    depends_on:
+      - mypostgres
+      - myredis
+
+  celery:
+    build: .
+    command: celery -A csvapi worker --loglevel=info
+    volumes:
+      - .:/app
+    env_file: .env
+    depends_on:
+      - myredis
+      - mypostgres
+
   mypostgres:
     image: postgres:13
-    ports:
-      - "5432:5432" # Bind port 5432 của container ra port 5432 của host
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=admin@123
-      - POSTGRES_DB=mydb
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
   myredis:
     image: redis:6
     ports:
-      - "6379:6379" # Bind port 6379 của container ra port 6379 của host
-  # mycelery:
-  #   build: .
-  #   command: celery -A myproject worker --loglevel=info
-  #   # volumes:
-  #   #   - .:/app
-  #   depends_on:
-  #     - myredis
-  #     - mypostgres
+      - "6379:6379"
+
 volumes:
   postgres_data:

@@ -1,0 +1,228 @@
+{
+    "info": {
+      "name": "RAVID",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "bruno",
+        "event": []
+      },
+      {
+        "name": "Auth",
+        "item": [
+          {
+            "name": "register",
+            "event": [],
+            "request": {
+              "method": "POST",
+              "header": [],
+              "auth": {
+                "type": "noauth"
+              },
+              "description": "",
+              "url": {
+                "raw": "{{serverURL}}/api/accounts/register/",
+                "protocol": "",
+                "host": [
+                  "{{serverURL}}"
+                ],
+                "path": [
+                  "api",
+                  "accounts",
+                  "register",
+                  ""
+                ],
+                "query": [],
+                "variable": []
+              },
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"username\": \"tungtran\",\n  \"password\": \"admin@123\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "login",
+            "event": [],
+            "request": {
+              "method": "POST",
+              "header": [],
+              "auth": {
+                "type": "noauth"
+              },
+              "description": "",
+              "url": {
+                "raw": "{{serverURL}}/api/accounts/login/",
+                "protocol": "",
+                "host": [
+                  "{{serverURL}}"
+                ],
+                "path": [
+                  "api",
+                  "accounts",
+                  "login",
+                  ""
+                ],
+                "query": [],
+                "variable": []
+              },
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"username\": \"tungtran\",\n  \"password\": \"admin@123\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "CSV",
+        "item": [
+          {
+            "name": "upload_csv",
+            "event": [],
+            "request": {
+              "method": "POST",
+              "header": [],
+              "auth": {
+                "type": "bearer",
+                "bearer": {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3NDE3MTIzODJ9.UhFMk1TsMwJqN1feIoe3qaNZhySLWyfHALh18I66E-g",
+                  "type": "string"
+                }
+              },
+              "description": "",
+              "url": {
+                "raw": "{{serverURL}}/api/csv/upload-csv/",
+                "protocol": "",
+                "host": [
+                  "{{serverURL}}"
+                ],
+                "path": [
+                  "api",
+                  "csv",
+                  "upload-csv",
+                  ""
+                ],
+                "query": [],
+                "variable": []
+              },
+              "body": {
+                "mode": "formdata",
+                "formdata": [
+                  {
+                    "key": "file",
+                    "value": [
+                      "D:\\WORK\\RAVID\\Assets\\demo.csv"
+                    ],
+                    "disabled": false,
+                    "type": "default"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "perform-operation",
+            "event": [],
+            "request": {
+              "method": "POST",
+              "header": [],
+              "auth": {
+                "type": "bearer",
+                "bearer": {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3NDE3MTIzODJ9.UhFMk1TsMwJqN1feIoe3qaNZhySLWyfHALh18I66E-g",
+                  "type": "string"
+                }
+              },
+              "description": "",
+              "url": {
+                "raw": "{{serverURL}}/api/csv/perform-operation/",
+                "protocol": "",
+                "host": [
+                  "{{serverURL}}"
+                ],
+                "path": [
+                  "api",
+                  "csv",
+                  "perform-operation",
+                  ""
+                ],
+                "query": [],
+                "variable": []
+              },
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"file_id\": \"3\",\n    \"operation\": \"dedup\"\n}\n// {\n//   \"file_id\": \"1\",\n//   \"operation\": \"filter\",\n//   \"operation_details\": {\n//     \"column\": \"tung\",\n//     \"value\": 2\n//   }\n// }\n// {\n//     \"file_id\": \"3\",\n//     \"operation\": \"unique\",\n//     \"operation_details\": {\n//         \"column_name\": \"tran\"\n//     }\n// }",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "name": "task status",
+            "event": [],
+            "request": {
+              "method": "GET",
+              "header": [],
+              "auth": {
+                "type": "bearer",
+                "bearer": {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE3NDE3MTIzODJ9.UhFMk1TsMwJqN1feIoe3qaNZhySLWyfHALh18I66E-g",
+                  "type": "string"
+                }
+              },
+              "description": "",
+              "url": {
+                "raw": "{{serverURL}}/api/csv/task-status/?task_id=66&n=100",
+                "protocol": "",
+                "host": [
+                  "{{serverURL}}"
+                ],
+                "path": [
+                  "api",
+                  "csv",
+                  "task-status",
+                  "?task_id=66&n=100"
+                ],
+                "query": [
+                  {
+                    "key": "task_id",
+                    "value": "66"
+                  },
+                  {
+                    "key": "n",
+                    "value": "100"
+                  }
+                ],
+                "variable": []
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "serverURL",
+        "value": "",
+        "type": "default"
+      }
+    ]
+  }
